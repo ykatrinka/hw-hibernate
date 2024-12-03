@@ -1,6 +1,7 @@
 package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.clevertec.dto.CategoryRequest;
 import ru.clevertec.dto.CategoryResponse;
 import ru.clevertec.entity.Category;
@@ -13,6 +14,7 @@ import ru.clevertec.service.CategoryService;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 

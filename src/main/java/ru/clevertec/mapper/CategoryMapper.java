@@ -6,7 +6,7 @@ import ru.clevertec.dto.CategoryRequest;
 import ru.clevertec.dto.CategoryResponse;
 import ru.clevertec.entity.Category;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
     @Mapping(target = "id", ignore = true)
@@ -19,7 +19,4 @@ public interface CategoryMapper {
 
     CategoryResponse entityToResponse(Category category);
 
-    default Category fromName(String name) {
-        return name != null ? Category.builder().name(name).build() : null;
-    }
 }

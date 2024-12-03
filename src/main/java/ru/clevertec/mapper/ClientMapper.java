@@ -6,7 +6,7 @@ import ru.clevertec.dto.ClientRequest;
 import ru.clevertec.dto.ClientResponse;
 import ru.clevertec.entity.Client;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ClientMapper {
 
     @Mapping(target = "reviews", ignore = true)

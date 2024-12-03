@@ -1,6 +1,7 @@
 package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.clevertec.dto.CarShowroomRequest;
 import ru.clevertec.dto.CarShowroomResponse;
 import ru.clevertec.entity.CarShowroom;
@@ -13,6 +14,7 @@ import ru.clevertec.service.CarShowroomService;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class CarShowroomServiceImpl implements CarShowroomService {
 

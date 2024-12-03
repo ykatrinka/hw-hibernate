@@ -6,7 +6,7 @@ import ru.clevertec.dto.ReviewRequest;
 import ru.clevertec.dto.ReviewResponse;
 import ru.clevertec.entity.Review;
 
-@Mapper(uses = {CarMapper.class, ClientMapper.class})
+@Mapper(uses = {CarMapper.class, ClientMapper.class}, componentModel = "spring")
 public interface ReviewMapper {
 
     @Mapping(target = "id", ignore = true)

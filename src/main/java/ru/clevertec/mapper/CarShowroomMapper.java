@@ -6,7 +6,7 @@ import ru.clevertec.dto.CarShowroomRequest;
 import ru.clevertec.dto.CarShowroomResponse;
 import ru.clevertec.entity.CarShowroom;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CarShowroomMapper {
 
     @Mapping(target = "cars", ignore = true)

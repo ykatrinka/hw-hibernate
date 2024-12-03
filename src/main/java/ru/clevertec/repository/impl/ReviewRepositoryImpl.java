@@ -3,8 +3,10 @@ package ru.clevertec.repository.impl;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.clevertec.entity.Review;
 import ru.clevertec.repository.ReviewRepository;
 import ru.clevertec.util.Constants;
@@ -13,8 +15,14 @@ import ru.clevertec.util.HibernateUtil;
 import java.util.Collections;
 import java.util.List;
 
-@SuperBuilder
+@Repository
 public class ReviewRepositoryImpl extends CrudRepositoryImpl<Review, Long> implements ReviewRepository {
+
+    @Autowired
+    public ReviewRepositoryImpl(SessionFactory sessionFactory) {
+        super(sessionFactory, Review.class);
+    }
+
     @Override
     public List<Review> getAllReviewsFullTextSearch(String searchText) {
         try (Session session = HibernateUtil.getSession()) {
