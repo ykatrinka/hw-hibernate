@@ -29,4 +29,12 @@ public class Constants {
     public static final String REVIEW_NOT_FOUND = "Review not found by id %s";
 
 
+    //N+1
+    public static final String HINT_FETCH_GRAPH = "jakarta.persistence.fetchgraph";
+    public static final String GRAPH_CATEGORY_SHOWROOM = "Car.withCategoryAndCarShowroom";
+    public static final String QUERY_ALL_CAR = "FROM Car";
+    public static final String QUERY_ALL_CAR_JOIN_FETCH =
+            "SELECT c FROM Car c JOIN FETCH c.category JOIN FETCH c.carShowroom";
+
+    public static final String CAR_FIELD_SHOWROOM = "carShowroom";
 }

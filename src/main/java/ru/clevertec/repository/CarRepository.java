@@ -13,4 +13,10 @@ public interface CarRepository extends CrudRepository<Car, Long> {
     List<Car> getCarsSortByPrice(SortOrder sortOrder);
 
     List<Car> getAllCarsByPage(int page, int pageSize);
+
+    List<Car> getAllCarsEntityGraph();
+
+    List<Car> getAllCarsJpqlFetch();
+
+    List<Car> getAllCarsCriteriaFetch();
 }

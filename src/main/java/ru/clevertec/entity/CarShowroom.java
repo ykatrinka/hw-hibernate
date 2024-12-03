@@ -42,6 +42,7 @@ public class CarShowroom {
 
     @OneToMany(mappedBy = "carShowroom", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
+    @ToString.Exclude
     private List<Car> cars = new ArrayList<>();
 
 }

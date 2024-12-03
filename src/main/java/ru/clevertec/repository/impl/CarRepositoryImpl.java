@@ -1,12 +1,16 @@
 package ru.clevertec.repository.impl;
 
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import ru.clevertec.entity.Car;
 import ru.clevertec.entity.CarShowroom;
 import ru.clevertec.enums.SortOrder;
@@ -123,6 +127,51 @@ public class CarRepositoryImpl extends CrudRepositoryImpl<Car, Long> implements 
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Car> getAllCarsEntityGraph() {
+        try (Session session = HibernateUtil.getSession();
+             EntityManager entityManager = session
+                     .getEntityManagerFactory()
+                     .createEntityManager()) {
+
+            EntityGraph<?> entityGraph = entityManager
+                    .getEntityGraph(Constants.GRAPH_CATEGORY_SHOWROOM);
+
+            return session.createQuery(Constants.QUERY_ALL_CAR, Car.class)
+                    .setHint(Constants.HINT_FETCH_GRAPH, entityGraph)
+                    .getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Car> getAllCarsJpqlFetch() {
+        try (Session session = HibernateUtil.getSession()) {
+            Query<Car> carQuery = session.createQuery(Constants.QUERY_ALL_CAR_JOIN_FETCH, Car.class);
+
+            return carQuery.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Car> getAllCarsCriteriaFetch() {
+        try (Session session = HibernateUtil.getSession()) {
+            HibernateCriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Car> carQuery = cb.createQuery(Car.class);
+            Root<Car> carRoot = carQuery.from(Car.class);
+            carRoot.fetch(Constants.CAR_FIELD_CATEGORY, JoinType.LEFT);
+            carRoot.fetch(Constants.CAR_FIELD_SHOWROOM, JoinType.LEFT);
+            carQuery.select(carRoot);
+
+            return session.createQuery(carQuery).getResultList();
+        } catch (Exception e) {
             return Collections.emptyList();
         }
     }

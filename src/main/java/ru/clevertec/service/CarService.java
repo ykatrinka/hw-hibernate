@@ -15,6 +15,12 @@ public interface CarService {
 
     void deleteCarById(Long carId);
 
+    List<CarResponse> getAllCarsEntityGraph();
+
+    List<CarResponse> getAllCarsJpqlFetch();
+
+    List<CarResponse> getAllCarsCriteriaFetch();
+
     void assignCarToShowroom(Long carId, Long carShowroomId);
 
     List<CarResponse> getAllCars();

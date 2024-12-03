@@ -64,6 +64,30 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<CarResponse> getAllCarsEntityGraph() {
+        return carRepository.getAllCarsEntityGraph()
+                .stream()
+                .map(carMapper::entityToResponse)
+                .toList();
+    }
+
+    @Override
+    public List<CarResponse> getAllCarsJpqlFetch() {
+        return carRepository.getAllCarsJpqlFetch()
+                .stream()
+                .map(carMapper::entityToResponse)
+                .toList();
+    }
+
+    @Override
+    public List<CarResponse> getAllCarsCriteriaFetch() {
+        return carRepository.getAllCarsCriteriaFetch()
+                .stream()
+                .map(carMapper::entityToResponse)
+                .toList();
+    }
+
+    @Override
     public void assignCarToShowroom(Long carId, Long carShowroomId) {
         checkCarId(carId);
         checkCarShowroomId(carShowroomId);

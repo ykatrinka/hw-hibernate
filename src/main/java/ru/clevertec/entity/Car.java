@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -29,6 +31,13 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Builder
+@NamedEntityGraph(
+        name = "Car.withCategoryAndCarShowroom",
+        attributeNodes = {
+                @NamedAttributeNode(value = "category"),
+                @NamedAttributeNode(value = "carShowroom")
+        }
+)
 public class Car {
 
     @Id
@@ -54,7 +63,6 @@ public class Car {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_showroom_id")
-    @ToString.Exclude
     private CarShowroom carShowroom;
 
     @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
