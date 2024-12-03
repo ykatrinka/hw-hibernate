@@ -10,6 +10,19 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.postgresql:postgresql:42.7.2'
+
+    implementation 'org.hibernate:hibernate-core:6.2.6.Final'
+
+    implementation 'org.projectlombok:lombok:1.18.32'
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
