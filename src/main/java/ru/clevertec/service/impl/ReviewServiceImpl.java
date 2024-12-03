@@ -1,12 +1,14 @@
 package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.clevertec.dto.ReviewRequest;
 import ru.clevertec.dto.ReviewResponse;
 import ru.clevertec.entity.Car;
 import ru.clevertec.entity.Client;
 import ru.clevertec.entity.Review;
 import ru.clevertec.exception.CarAnotherClientException;
+import ru.clevertec.exception.CarNotFoundException;
 import ru.clevertec.exception.ClientNotFoundException;
 import ru.clevertec.exception.ReviewBadRequestException;
 import ru.clevertec.exception.ReviewNotFoundException;
@@ -18,6 +20,7 @@ import ru.clevertec.service.ReviewService;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
@@ -92,7 +95,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private void checkCarId(Long carId) {
         if (carId == null) {
-            throw ReviewNotFoundException.byReviewId(carId);
+            throw CarNotFoundException.byCarId(carId);
         }
     }
 

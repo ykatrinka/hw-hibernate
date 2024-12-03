@@ -1,6 +1,7 @@
 package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.clevertec.dto.ClientRequest;
 import ru.clevertec.dto.ClientResponse;
 import ru.clevertec.entity.Client;
@@ -15,6 +16,7 @@ import ru.clevertec.service.ClientService;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 

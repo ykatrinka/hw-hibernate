@@ -1,7 +1,9 @@
 package ru.clevertec.repository.impl;
 
-import lombok.experimental.SuperBuilder;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.clevertec.entity.Car;
 import ru.clevertec.entity.Client;
 import ru.clevertec.repository.ClientRepository;
@@ -9,8 +11,13 @@ import ru.clevertec.util.HibernateUtil;
 
 import java.util.List;
 
-@SuperBuilder
+@Repository
 public class ClientRepositoryImpl extends CrudRepositoryImpl<Client, Long> implements ClientRepository {
+
+    @Autowired
+    public ClientRepositoryImpl(SessionFactory sessionFactory) {
+        super(sessionFactory, Client.class);
+    }
 
     @Override
     public void buyCar(Long clientId, Long carId) {

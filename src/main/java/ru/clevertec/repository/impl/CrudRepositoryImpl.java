@@ -1,7 +1,6 @@
 package ru.clevertec.repository.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -10,7 +9,6 @@ import ru.clevertec.util.Constants;
 
 import java.util.List;
 
-@SuperBuilder
 @RequiredArgsConstructor
 public class CrudRepositoryImpl<T, K> implements CrudRepository<T, K> {
 
@@ -60,7 +58,7 @@ public class CrudRepositoryImpl<T, K> implements CrudRepository<T, K> {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             String queryFindAll = String.format(Constants.QUERY_FIND_ALL, cls.getName());
-            Query<T> query = session.createQuery(queryFindAll,cls);
+            Query<T> query = session.createQuery(queryFindAll, cls);
             return query.list();
         }
     }

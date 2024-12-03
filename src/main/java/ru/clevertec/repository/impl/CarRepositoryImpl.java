@@ -7,14 +7,18 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.clevertec.entity.Car;
 import ru.clevertec.entity.CarShowroom;
+import ru.clevertec.entity.Category;
 import ru.clevertec.enums.SortOrder;
 import ru.clevertec.repository.CarRepository;
+import ru.clevertec.repository.CategoryRepository;
 import ru.clevertec.util.Constants;
 import ru.clevertec.util.HibernateUtil;
 
@@ -22,8 +26,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@SuperBuilder
+@Repository
 public class CarRepositoryImpl extends CrudRepositoryImpl<Car, Long> implements CarRepository {
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    public CarRepositoryImpl(SessionFactory sessionFactory) {
+        super(sessionFactory, Car.class);
+    }
+
+    @Override
+    public void save(Car car) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            Category category = categoryRepository.getById(car.getCategory().getId());
+            car.setCategory(category);
+            session.merge(car);
+            session.getTransaction().commit();
+        }
+    }
 
     @Override
     public void assignCarToShowroom(Long carId, Long carShowroomId) {
