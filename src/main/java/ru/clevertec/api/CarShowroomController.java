@@ -53,7 +53,7 @@ public class CarShowroomController {
     }
 
     @DeleteMapping(value = "/{carShowroomId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCarShowroom(@PathVariable("carShowroomId") @Valid @NotNull Long carShowroomId) {
         carShowroomService.deleteCarShowroomById(carShowroomId);
     }

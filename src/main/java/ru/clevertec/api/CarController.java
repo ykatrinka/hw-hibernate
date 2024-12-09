@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.clevertec.dto.CarCreateDto;
@@ -20,6 +21,7 @@ import ru.clevertec.dto.CarResponse;
 import ru.clevertec.dto.CarUpdateDto;
 import ru.clevertec.service.CarService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -53,7 +55,7 @@ public class CarController {
     }
 
     @DeleteMapping(value = "/{carId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCar(@PathVariable("carId") @Valid @NotNull Long carId) {
         carService.deleteCarById(carId);
     }
@@ -68,5 +70,15 @@ public class CarController {
     @PostMapping("/{carId}/showroom/{showroomId}")
     public void assignCarToShowroom(@PathVariable("carId") Long carId, @PathVariable("showroomId") Long showroomId) {
         carService.assignCarToShowroom(carId, showroomId);
+    }
+
+    @GetMapping("/filter")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CarResponse> getAllCarsWithFilter(@RequestParam(value = "brand", defaultValue = "") String brand,
+                                                  @RequestParam(value = "category", defaultValue = "") String category,
+                                                  @RequestParam(value = "year", defaultValue = "0") int year,
+                                                  @RequestParam(value = "minPrice", defaultValue = "0") BigDecimal minPrice,
+                                                  @RequestParam(value = "maxPrice", defaultValue = "0") BigDecimal maxPrice) {
+        return carService.getAllCarsWithFilter(brand, category, year, minPrice, maxPrice);
     }
 }

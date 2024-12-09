@@ -15,6 +15,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 @PropertySource(value = "classpath:application.yaml", factory = ApplicationProperties.class)
@@ -23,16 +25,25 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class JpaConfig {
 
-    @Value("${spring.datasource.driver-class-name}")
+    @Value("${datasource.driver_class}")
     private String driver;
-    @Value("${spring.datasource.url}")
+    @Value("${datasource.url_db}")
     private String url;
-    @Value("${spring.datasource.username}")
+    @Value("${datasource.username_db}")
     private String username;
-    @Value("${spring.datasource.password}")
+    @Value("${datasource.password_db}")
     private String password;
-    @Value("${spring.liquibase.change-log}")
+
+    @Value("${hibernate.show_sql}")
+    private String showSql;
+    @Value("${hibernate.ddl_auto}")
+    private String ddlAuto;
+    @Value("${hibernate.dialect}")
+    private String dialect;
+
+    @Value("${liquibase.change_log}")
     private String changeLog;
+
 
     @Bean
     public DataSource dataSource() {
@@ -59,8 +70,19 @@ public class JpaConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+
         em.setDataSource(dataSource);
         em.setPackagesToScan("ru.clevertec");
+
+        Properties properties = new Properties();
+        properties.putAll(
+                Map.of(
+                        "hibernate.show-sql", showSql,
+                        "hibernate.ddl-auto", ddlAuto,
+                        "hibernate.dialect", dialect
+                )
+        );
+        em.setJpaProperties(properties);
 
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setPersistenceProviderClass(HibernatePersistenceProvider.class);

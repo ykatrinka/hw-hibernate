@@ -2,6 +2,7 @@ package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.dto.ClientCreateDto;
 import ru.clevertec.dto.ClientResponse;
 import ru.clevertec.dto.ClientUpdateDto;
@@ -9,6 +10,7 @@ import ru.clevertec.entity.Car;
 import ru.clevertec.entity.Client;
 import ru.clevertec.exception.CarNotFoundException;
 import ru.clevertec.exception.ClientNotFoundException;
+import ru.clevertec.logging.Logging;
 import ru.clevertec.mapper.ClientMapper;
 import ru.clevertec.repository.CarRepository;
 import ru.clevertec.repository.ClientRepository;
@@ -17,8 +19,10 @@ import ru.clevertec.service.ClientService;
 import java.util.List;
 import java.util.Optional;
 
+@Logging
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
@@ -31,6 +35,7 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(client);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ClientResponse getClientById(Long clientId) {
         return clientRepository.findById(clientId)
@@ -55,6 +60,7 @@ public class ClientServiceImpl implements ClientService {
                 .ifPresent(client -> clientRepository.deleteById(clientId));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ClientResponse> getAllClients() {
         return clientRepository.findAll()

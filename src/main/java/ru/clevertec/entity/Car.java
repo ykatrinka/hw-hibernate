@@ -28,7 +28,7 @@ import java.math.BigDecimal;
 @ToString
 @Builder
 @NamedEntityGraph(
-        name = "Car.withCategoryAndCarShowroom",
+        name = "categoryAndCarShowroom",
         attributeNodes = {
                 @NamedAttributeNode(value = "category"),
                 @NamedAttributeNode(value = "carShowroom")
