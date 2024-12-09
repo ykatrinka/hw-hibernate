@@ -8,6 +8,7 @@ import ru.clevertec.dto.CategoryResponse;
 import ru.clevertec.dto.CategoryUpdateDto;
 import ru.clevertec.entity.Category;
 import ru.clevertec.exception.CategoryNotFoundException;
+import ru.clevertec.logging.Logging;
 import ru.clevertec.mapper.CategoryMapper;
 import ru.clevertec.repository.CategoryRepository;
 import ru.clevertec.service.CategoryService;
@@ -15,6 +16,7 @@ import ru.clevertec.service.CategoryService;
 import java.util.List;
 import java.util.Optional;
 
+@Logging
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -53,6 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .ifPresent(id -> categoryRepository.deleteById(categoryId));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CategoryResponse> getAllCategories() {
         return categoryRepository.findAll()

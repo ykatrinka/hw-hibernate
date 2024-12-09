@@ -2,6 +2,7 @@ package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.dto.ReviewCreateDto;
 import ru.clevertec.dto.ReviewResponse;
 import ru.clevertec.dto.ReviewUpdateDto;
@@ -10,6 +11,7 @@ import ru.clevertec.entity.Review;
 import ru.clevertec.exception.CarAnotherClientException;
 import ru.clevertec.exception.ClientNotFoundException;
 import ru.clevertec.exception.ReviewNotFoundException;
+import ru.clevertec.logging.Logging;
 import ru.clevertec.mapper.ReviewMapper;
 import ru.clevertec.repository.ClientRepository;
 import ru.clevertec.repository.ReviewRepository;
@@ -18,8 +20,10 @@ import ru.clevertec.service.ReviewService;
 import java.util.List;
 import java.util.Optional;
 
+@Logging
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
