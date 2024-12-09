@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="insert-demo-data-cars"
+               author="Katerina Yaroshevich">
+
+        <insert tableName="cars">
+            <column name="brand">Ford</column>
+            <column name="model">Thunderbird</column>
+            <column name="year">1991</column>
+            <column name="price">63851</column>
+            <column name="category_id">6</column>
+            <column name="car_showroom_id">3</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Suzuki</column>
+            <column name="model">SX4</column>
+            <column name="year">2010</column>
+            <column name="price">87980</column>
+            <column name="category_id">3</column>
+            <column name="car_showroom_id">3</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Ford</column>
+            <column name="model">LTD Crown Victoria</column>
+            <column name="year">1984</column>
+            <column name="price">14484</column>
+            <column name="category_id">1</column>
+            <column name="car_showroom_id">null</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Nissan</column>
+            <column name="model">Titan</column>
+            <column name="year">2009</column>
+            <column name="price">60175</column>
+            <column name="category_id">4</column>
+            <column name="car_showroom_id">1</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">BMW</column>
+            <column name="model">6 Series</column>
+            <column name="year">2009</column>
+            <column name="price">86321</column>
+            <column name="category_id">5</column>
+            <column name="car_showroom_id">3</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Suzuki</column>
+            <column name="model">Vitara</column>
+            <column name="year">2002</column>
+            <column name="price">41761</column>
+            <column name="category_id">5</column>
+            <column name="car_showroom_id">3</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Infiniti</column>
+            <column name="model">FX</column>
+            <column name="year">2006</column>
+            <column name="price">48167</column>
+            <column name="category_id">2</column>
+            <column name="car_showroom_id">3</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Chrysler</column>
+            <column name="model">Pacifica</column>
+            <column name="year">2007</column>
+            <column name="price">96344</column>
+            <column name="category_id">2</column>
+            <column name="car_showroom_id">null</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Chevrolet</column>
+            <column name="model">Camaro</column>
+            <column name="year">1973</column>
+            <column name="price">64806</column>
+            <column name="category_id">5</column>
+            <column name="car_showroom_id">3</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Dodge</column>
+            <column name="model">Ram 1500</column>
+            <column name="year">1995</column>
+            <column name="price">92601</column>
+            <column name="category_id">3</column>
+            <column name="car_showroom_id">3</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Audi</column>
+            <column name="model">Q7</column>
+            <column name="year">2009</column>
+            <column name="price">28877</column>
+            <column name="category_id">6</column>
+            <column name="car_showroom_id">null</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Scion</column>
+            <column name="model">tC</column>
+            <column name="year">2011</column>
+            <column name="price">10741</column>
+            <column name="category_id">4</column>
+            <column name="car_showroom_id">1</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Dodge</column>
+            <column name="model">Ram Van 3500</column>
+            <column name="year">2003</column>
+            <column name="price">52682</column>
+            <column name="category_id">5</column>
+            <column name="car_showroom_id">1</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Audi</column>
+            <column name="model">S4</column>
+            <column name="year">2011</column>
+            <column name="price">38024</column>
+            <column name="category_id">3</column>
+            <column name="car_showroom_id">1</column>
+        </insert>
+        <insert tableName="cars">
+            <column name="brand">Lexus</column>
+            <column name="model">SC</column>
+            <column name="year">2000</column>
+            <column name="price">66178</column>
+            <column name="category_id">4</column>
+            <column name="car_showroom_id">2</column>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
+

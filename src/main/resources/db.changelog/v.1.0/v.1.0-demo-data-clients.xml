@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="insert-demo-data-table-clients"
+               author="Katerina Yaroshevich">
+
+        <insert tableName="clients">
+            <column name="name">Wilfred Brinicombe</column>
+            <column name="date_of_register">'2024-6-14'</column>
+        </insert>
+
+        <insert tableName="clients">
+            <column name="name">Paloma Ibbotson</column>
+            <column name="date_of_register">2024-7-10</column>
+        </insert>
+
+
+        <insert tableName="clients">
+            <column name="name">Antonietta Bache</column>
+            <column name="date_of_register">2024-11-12</column>
+        </insert>
+
+
+        <insert tableName="clients">
+            <column name="name">Claudina Becom</column>
+            <column name="date_of_register">2024-6-15</column>
+        </insert>
+
+        <insert tableName="clients">
+            <column name="name">Lesley Pepperd</column>
+            <column name="date_of_register">2024-6-22</column>
+        </insert>
+
+        <insert tableName="clients">
+            <column name="name">Kalindi Whiffen</column>
+            <column name="date_of_register">2024-9-15</column>
+        </insert>
+
+        <insert tableName="clients">
+            <column name="name">Kellsie Terrazzo</column>
+            <column name="date_of_register">2024-9-20</column>
+        </insert>
+
+        <insert tableName="clients">
+            <column name="name">Maritsa Laffling</column>
+            <column name="date_of_register">2024-11-1</column>
+        </insert>
+
+        <insert tableName="clients">
+            <column name="name">Levi Ricciardello</column>
+            <column name="date_of_register">2024-11-9</column>
+        </insert>
+
+        <insert tableName="clients">
+            <column name="name">Gardener Proback</column>
+            <column name="date_of_register">2024-8-12</column>
+        </insert>
+
+    </changeSet>
+
+
+    <changeSet id="create-table-client-contacts"
+               author="Katerina Yaroshevich">
+
+        <insert tableName="client_contacts">
+            <column name="client_id">1</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">faustins0@yandex.ru</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">2</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">tcoppock1@addtoany.com</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">2</column>
+            <column name="contact_type">PHONE</column>
+            <column name="contact_info">379-514-2794</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">3</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">ksurgener2@time.com</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">4</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">aockenden3@illinois.edu</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">4</column>
+            <column name="contact_type">PHONE</column>
+            <column name="contact_info">463-626-0722</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">5</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">kfishleigh4@shutterfly.com</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">6</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">rphlippi5@eepurl.com</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">6</column>
+            <column name="contact_type">PHONE</column>
+            <column name="contact_info">971-991-7405</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">7</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">phay6@house.gov</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">8</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">epowdrill7@symantec.com</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">8</column>
+            <column name="contact_type">PHONE</column>
+            <column name="contact_info">279-879-6584</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">9</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">cwisedale8@mail.ru</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">10</column>
+            <column name="contact_type">EMAIL</column>
+            <column name="contact_info">jduchart9@cam.ac.uk</column>
+        </insert>
+
+        <insert tableName="client_contacts">
+            <column name="client_id">10</column>
+            <column name="contact_type">PHONE</column>
+            <column name="contact_info">393-492-8674</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

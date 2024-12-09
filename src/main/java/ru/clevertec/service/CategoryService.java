@@ -1,16 +1,17 @@
 package ru.clevertec.service;
 
-import ru.clevertec.dto.CategoryRequest;
+import ru.clevertec.dto.CategoryCreateDto;
 import ru.clevertec.dto.CategoryResponse;
+import ru.clevertec.dto.CategoryUpdateDto;
 
 import java.util.List;
 
 public interface CategoryService {
-    void saveCategory(CategoryRequest categoryRequest);
+    void saveCategory(CategoryCreateDto categoryRequest);
 
     CategoryResponse getCategoryById(Long categoryId);
 
-    void updateCategory(CategoryRequest categoryRequest, Long categoryId);
+    void updateCategory(Long categoryId, CategoryUpdateDto categoryRequest);
 
     void deleteCategoryById(Long categoryId);
 
