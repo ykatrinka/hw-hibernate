@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="insert-demo-data-table-reviews"
+               author="Katerina Yaroshevich">
+
+        <insert tableName="reviews">
+            <column name="client_id">2</column>
+            <column name="car_id">4</column>
+            <column name="text">Cool!</column>
+            <column name="rating">8</column>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="client_id">5</column>
+            <column name="car_id">2</column>
+            <column name="text">Great</column>
+            <column name="rating">7</column>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="client_id">8</column>
+            <column name="car_id">8</column>
+            <column name="text">Cool car</column>
+            <column name="rating">9</column>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="client_id">2</column>
+            <column name="car_id">5</column>
+            <column name="text">Awesome</column>
+            <column name="rating">10</column>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

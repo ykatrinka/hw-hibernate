@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <include file="/db.changelog/v.1.0/v.1.0-schema-car-showrooms.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-schema-categories.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-schema-cars.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-schema-clients.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-schema-clients-cars.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-schema-reviews.xml"/>
+
+    <include file="/db.changelog/v.1.0/v.1.0-demo-data-car-showrooms.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-demo-data-categories.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-demo-data-cars.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-demo-data-clients.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-demo-data-clients-cars.xml"/>
+    <include file="/db.changelog/v.1.0/v.1.0-demo-data-reviews.xml"/>
+
+</databaseChangeLog>

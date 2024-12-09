@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="create-table-clients"
+               author="Katerina Yaroshevich">
+
+        <createTable tableName="clients">
+            <column autoIncrement="true"
+                    name="id"
+                    type="BIGINT">
+                <constraints primaryKey="true"
+                             primaryKeyName="pk_clients"
+                             nullable="false"/>
+            </column>
+            <column name="name"
+                    type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_register"
+                    type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="create-table-client-contacts"
+               author="Katerina Yaroshevich">
+        <createTable tableName="client_contacts">
+            <column name="client_id"
+                    type="BIGINT">
+                <constraints foreignKeyName="fk_client_contacts_client_id"
+                             referencedColumnNames="id"
+                             referencedTableName="clients"
+                             nullable="false"/>
+            </column>
+            <column name="contact_type"
+                    type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_info"
+                    type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
