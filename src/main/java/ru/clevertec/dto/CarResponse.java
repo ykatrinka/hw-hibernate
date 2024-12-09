@@ -1,18 +1,15 @@
 package ru.clevertec.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import java.math.BigDecimal;
 
-@Data
-@Builder
-public class CarResponse {
 
-    private Long id;
-    private String model;
-    private String brand;
-    private int year;
-    private Double price;
-    private CategoryResponse category;
-    private CarShowroomResponse carShowroom;
-
+public record CarResponse(
+        Long id,
+        String model,
+        String brand,
+        int year,
+        BigDecimal price,
+        CategoryResponse category,
+        CarShowroomResponse carShowroom
+) {
 }

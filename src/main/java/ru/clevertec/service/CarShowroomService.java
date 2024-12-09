@@ -1,16 +1,17 @@
 package ru.clevertec.service;
 
-import ru.clevertec.dto.CarShowroomRequest;
+import ru.clevertec.dto.CarShowroomCreateDto;
 import ru.clevertec.dto.CarShowroomResponse;
+import ru.clevertec.dto.CarShowroomUpdateDto;
 
 import java.util.List;
 
 public interface CarShowroomService {
-    void saveCarShowroom(CarShowroomRequest carShowroomRequest);
+    void saveCarShowroom(CarShowroomCreateDto carShowroomCreateDto);
 
     CarShowroomResponse getCarShowroomById(Long carShowroomId);
 
-    void updateCarShowroom(CarShowroomRequest carShowroomRequest, Long carShowroomId);
+    void updateCarShowroom(Long carShowroomId, CarShowroomUpdateDto carShowroomUpdateDto);
 
     void deleteCarShowroomById(Long carShowroomId);
 

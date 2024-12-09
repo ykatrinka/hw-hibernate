@@ -2,8 +2,9 @@ package ru.clevertec.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.clevertec.dto.CarRequest;
+import ru.clevertec.dto.CarCreateDto;
 import ru.clevertec.dto.CarResponse;
+import ru.clevertec.dto.CarUpdateDto;
 import ru.clevertec.entity.Car;
 import ru.clevertec.entity.Category;
 
@@ -12,15 +13,13 @@ public interface CarMapper {
 
     @Mapping(target = "carShowroom", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "reviews", ignore = true)
     @Mapping(target = "category", source = "categoryId")
-    Car requestToEntity(CarRequest carRequest);
+    Car createToEntity(CarCreateDto carCreateDto);
 
     @Mapping(target = "carShowroom", ignore = true)
     @Mapping(target = "id", source = "carId")
-    @Mapping(target = "reviews", ignore = true)
-    @Mapping(target = "category", source = "carRequest.categoryId")
-    Car requestToEntity(CarRequest carRequest, Long carId);
+    @Mapping(target = "category", source = "carUpdateDto.categoryId")
+    Car updateDtoToEntity(Long carId, CarUpdateDto carUpdateDto);
 
     CarResponse entityToResponse(Car car);
 

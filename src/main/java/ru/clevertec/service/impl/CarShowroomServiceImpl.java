@@ -2,10 +2,10 @@ package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.clevertec.dto.CarShowroomRequest;
+import ru.clevertec.dto.CarShowroomCreateDto;
 import ru.clevertec.dto.CarShowroomResponse;
+import ru.clevertec.dto.CarShowroomUpdateDto;
 import ru.clevertec.entity.CarShowroom;
-import ru.clevertec.exception.CarShowroomBadRequestException;
 import ru.clevertec.exception.CarShowroomNotFoundException;
 import ru.clevertec.mapper.CarShowroomMapper;
 import ru.clevertec.repository.CarShowroomRepository;
@@ -22,54 +22,45 @@ public class CarShowroomServiceImpl implements CarShowroomService {
     private final CarShowroomMapper carShowroomMapper;
 
     @Override
-    public void saveCarShowroom(CarShowroomRequest carShowroomRequest) {
-        checkCarShowroomRequest(carShowroomRequest);
-
-        CarShowroom carShowroom = carShowroomMapper.requestToEntity(carShowroomRequest);
+    public void saveCarShowroom(CarShowroomCreateDto carShowroomCreateDto) {
+        CarShowroom carShowroom = carShowroomMapper.createDtoToEntity(carShowroomCreateDto);
         carShowroomRepository.save(carShowroom);
     }
 
     @Override
     public CarShowroomResponse getCarShowroomById(Long carShowroomId) {
-        checkCarShowroomId(carShowroomId);
-
-        CarShowroom carShowroom = carShowroomRepository.getById(carShowroomId);
-        return carShowroomMapper.entityToResponse(carShowroom);
+        return carShowroomRepository.findById(carShowroomId)
+                .map(carShowroomMapper::entityToResponse)
+                .orElseThrow(() -> CarShowroomNotFoundException.byCarShowroomId(carShowroomId));
     }
 
     @Override
-    public void updateCarShowroom(CarShowroomRequest carShowroomRequest, Long carShowroomId) {
-        checkCarShowroomRequest(carShowroomRequest);
+    public void updateCarShowroom(Long carShowroomId, CarShowroomUpdateDto carShowroomUpdateDto) {
         checkCarShowroomId(carShowroomId);
 
-        CarShowroom carShowroom = carShowroomMapper.requestToEntity(carShowroomRequest, carShowroomId);
-        carShowroomRepository.update(carShowroom);
+        Optional.ofNullable(carShowroomUpdateDto)
+                .map(showroomPutDto -> carShowroomMapper.updateDtoToEntity(showroomPutDto, carShowroomId))
+                .ifPresent(carShowroomRepository::save);
     }
 
     @Override
     public void deleteCarShowroomById(Long carShowroomId) {
-        checkCarShowroomId(carShowroomId);
-
-        carShowroomRepository.deleteById(carShowroomId);
+        Optional.ofNullable(carShowroomId)
+                .map(carShowroomRepository::findById)
+                .ifPresent(id -> carShowroomRepository.deleteById(carShowroomId));
     }
 
     @Override
     public List<CarShowroomResponse> getAllCarShowrooms() {
-        return carShowroomRepository.getAll()
+        return carShowroomRepository.findAll()
                 .stream()
                 .map(carShowroomMapper::entityToResponse)
                 .toList();
     }
 
-    private void checkCarShowroomRequest(CarShowroomRequest carShowroomRequest) {
-        if (carShowroomRequest == null) {
-            throw CarShowroomBadRequestException.byCarShowroomRequest();
-        }
-    }
-
     private void checkCarShowroomId(Long carShowroomId) {
         Optional.ofNullable(carShowroomId)
-                .map(carShowroomRepository::getById)
+                .map(carShowroomRepository::findById)
                 .orElseThrow(() -> CarShowroomNotFoundException.byCarShowroomId(carShowroomId));
     }
 

@@ -2,11 +2,12 @@ package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.clevertec.dto.ClientRequest;
+import ru.clevertec.dto.ClientCreateDto;
 import ru.clevertec.dto.ClientResponse;
+import ru.clevertec.dto.ClientUpdateDto;
+import ru.clevertec.entity.Car;
 import ru.clevertec.entity.Client;
 import ru.clevertec.exception.CarNotFoundException;
-import ru.clevertec.exception.ClientBadRequestException;
 import ru.clevertec.exception.ClientNotFoundException;
 import ru.clevertec.mapper.ClientMapper;
 import ru.clevertec.repository.CarRepository;
@@ -25,41 +26,38 @@ public class ClientServiceImpl implements ClientService {
     private final ClientMapper clientMapper;
 
     @Override
-    public void saveClient(ClientRequest clientRequest) {
-        checkClientRequest(clientRequest);
-
-        Client car = clientMapper.requestToEntity(clientRequest);
-        clientRepository.save(car);
+    public void saveClient(ClientCreateDto clientCreateDto) {
+        Client client = clientMapper.createDtoToEntity(clientCreateDto);
+        clientRepository.save(client);
     }
 
     @Override
     public ClientResponse getClientById(Long clientId) {
-        checkClientId(clientId);
-
-        Client client = clientRepository.getById(clientId);
-        return clientMapper.entityToResponse(client);
+        return clientRepository.findById(clientId)
+                .map(clientMapper::entityToResponse)
+                .orElseThrow(() -> ClientNotFoundException.byClientId(clientId));
     }
 
     @Override
-    public void updateClient(ClientRequest clientRequest, Long clientId) {
-        checkClientRequest(clientRequest);
-        Client clientDB = checkClientId(clientId);
+    public void updateClient(Long clientId, ClientUpdateDto clientUpdateDto) {
+        List<Car> cars = getClient(clientId).getCars();
+        Client client = clientMapper.updateDtoToEntity(clientUpdateDto, clientId);
+        client.setCars(cars);
 
-        Client client = clientMapper.requestToEntity(clientRequest, clientId);
-        client.setCars(clientDB.getCars());
-        clientRepository.update(client);
+        clientRepository.save(client);
     }
+
 
     @Override
     public void deleteClientById(Long clientId) {
-        checkClientId(clientId);
-
-        clientRepository.deleteById(clientId);
+        Optional.ofNullable(clientId)
+                .map(clientRepository::findById)
+                .ifPresent(client -> clientRepository.deleteById(clientId));
     }
 
     @Override
     public List<ClientResponse> getAllClients() {
-        return clientRepository.getAll()
+        return clientRepository.findAll()
                 .stream()
                 .map(clientMapper::entityToResponse)
                 .toList();
@@ -67,28 +65,23 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void buyCar(Long clientId, Long carId) {
-        checkClientId(clientId);
-        checkCarId(carId);
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> ClientNotFoundException.byClientId(clientId));
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> CarNotFoundException.byCarId(carId));
 
-        clientRepository.buyCar(clientId, carId);
-    }
+        boolean isCarNotExists = client.getCars().stream()
+                .noneMatch(car1 -> car1.getId().equals(carId));
 
-    private void checkClientRequest(ClientRequest clientRequest) {
-        if (clientRequest == null) {
-            throw ClientBadRequestException.byClientRequest();
+        if (isCarNotExists) {
+            client.getCars().add(car);
+            clientRepository.save(client);
         }
     }
 
-    private Client checkClientId(Long clientId) {
-        return Optional.ofNullable(clientId)
-                .map(clientRepository::getById)
+
+    private Client getClient(Long clientId) {
+        return clientRepository.findById(clientId)
                 .orElseThrow(() -> ClientNotFoundException.byClientId(clientId));
     }
-
-    private void checkCarId(Long carId) {
-        Optional.ofNullable(carId)
-                .map(carRepository::getById)
-                .orElseThrow(() -> CarNotFoundException.byCarId(carId));
-    }
-
 }

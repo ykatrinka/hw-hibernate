@@ -2,11 +2,12 @@ package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.clevertec.dto.CarRequest;
+import org.springframework.transaction.annotation.Transactional;
+import ru.clevertec.dto.CarCreateDto;
 import ru.clevertec.dto.CarResponse;
+import ru.clevertec.dto.CarUpdateDto;
 import ru.clevertec.entity.Car;
-import ru.clevertec.enums.SortOrder;
-import ru.clevertec.exception.CarBadRequestException;
+import ru.clevertec.entity.CarShowroom;
 import ru.clevertec.exception.CarNotFoundException;
 import ru.clevertec.exception.CarShowroomNotFoundException;
 import ru.clevertec.mapper.CarMapper;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
@@ -26,64 +28,39 @@ public class CarServiceImpl implements CarService {
     private final CarMapper carMapper;
 
     @Override
-    public void saveCar(CarRequest carRequest) {
-        checkCarRequest(carRequest);
-
-        Car car = carMapper.requestToEntity(carRequest);
+    public void saveCar(CarCreateDto carCreateDto) {
+        Car car = carMapper.createToEntity(carCreateDto);
         carRepository.save(car);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CarResponse getCarById(Long carId) {
-        checkCarId(carId);
-
-        Car car = carRepository.getById(carId);
-        return carMapper.entityToResponse(car);
+        return carRepository.findById(carId)
+                .map(carMapper::entityToResponse)
+                .orElseThrow(() -> CarNotFoundException.byCarId(carId));
     }
 
     @Override
-    public void updateCar(CarRequest carRequest, Long carId) {
-        checkCarRequest(carRequest);
+    public void updateCar(Long carId, CarUpdateDto carUpdateDto) {
         checkCarId(carId);
 
-        Car car = carMapper.requestToEntity(carRequest, carId);
-        carRepository.update(car);
+        Optional.ofNullable(carUpdateDto)
+                .map(categoryDto -> carMapper.updateDtoToEntity(carId, categoryDto))
+                .ifPresent(carRepository::save);
     }
 
     @Override
     public void deleteCarById(Long carId) {
-        checkCarId(carId);
-
-        carRepository.deleteById(carId);
+        Optional.ofNullable(carId)
+                .map(carRepository::findById)
+                .ifPresent(id -> carRepository.deleteById(carId));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CarResponse> getAllCars() {
-        return carRepository.getAll()
-                .stream()
-                .map(carMapper::entityToResponse)
-                .toList();
-    }
-
-    @Override
-    public List<CarResponse> getAllCarsEntityGraph() {
-        return carRepository.getAllCarsEntityGraph()
-                .stream()
-                .map(carMapper::entityToResponse)
-                .toList();
-    }
-
-    @Override
-    public List<CarResponse> getAllCarsJpqlFetch() {
-        return carRepository.getAllCarsJpqlFetch()
-                .stream()
-                .map(carMapper::entityToResponse)
-                .toList();
-    }
-
-    @Override
-    public List<CarResponse> getAllCarsCriteriaFetch() {
-        return carRepository.getAllCarsCriteriaFetch()
+        return carRepository.findAll()
                 .stream()
                 .map(carMapper::entityToResponse)
                 .toList();
@@ -91,53 +68,23 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void assignCarToShowroom(Long carId, Long carShowroomId) {
-        checkCarId(carId);
-        checkCarShowroomId(carShowroomId);
+        CarShowroom carShowroom = carShowroomRepository.findById(carShowroomId)
+                .orElseThrow(() -> CarShowroomNotFoundException.byCarShowroomId(carShowroomId));
 
-        carRepository.assignCarToShowroom(carId, carShowroomId);
-    }
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> CarNotFoundException.byCarId(carId));
 
-
-    @Override
-    public List<CarResponse> getAllCarsWithFilter(String brand, String category, int year, Double minPrice, Double maxPrice) {
-        return carRepository.getCarsByFilters(brand, category, year, minPrice, maxPrice)
-                .stream()
-                .map(carMapper::entityToResponse)
-                .toList();
-    }
-
-    @Override
-    public List<CarResponse> getCarsSortByPrice(SortOrder sortOrder) {
-        return carRepository.getCarsSortByPrice(sortOrder)
-                .stream()
-                .map(carMapper::entityToResponse)
-                .toList();
-    }
-
-    @Override
-    public List<CarResponse> getAllCarsByPage(int page, int pageSize) {
-        return carRepository.getAllCarsByPage(page, pageSize)
-                .stream()
-                .map(carMapper::entityToResponse)
-                .toList();
-    }
-
-    private void checkCarRequest(CarRequest carRequest) {
-        if (carRequest == null) {
-            throw CarBadRequestException.byCarRequest();
+        if (car != null) {
+            car.setCarShowroom(carShowroom);
+            carRepository.save(car);
         }
     }
+
 
     private void checkCarId(Long carId) {
         Optional.ofNullable(carId)
                 .map(carRepository::getById)
                 .orElseThrow(() -> CarNotFoundException.byCarId(carId));
-    }
-
-    private void checkCarShowroomId(Long carShowroomId) {
-        Optional.ofNullable(carShowroomId)
-                .map(carShowroomRepository::getById)
-                .orElseThrow(() -> CarShowroomNotFoundException.byCarShowroomId(carShowroomId));
     }
 
 }

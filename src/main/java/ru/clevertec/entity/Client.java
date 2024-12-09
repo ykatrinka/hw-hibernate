@@ -1,6 +1,5 @@
 package ru.clevertec.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -12,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,9 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "clients")
@@ -46,10 +48,10 @@ public class Client {
     @Column(name = "date_of_register", nullable = false, length = 10)
     private LocalDate dateOfRegister;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "clients_cars",
             joinColumns = @JoinColumn(name = "client_id"),
-            inverseJoinColumns = @JoinColumn(name = "cars_id")
+            inverseJoinColumns = @JoinColumn(name = "car_id")
     )
     @Builder.Default
     private List<Car> cars = new ArrayList<>();
@@ -57,8 +59,10 @@ public class Client {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "client_contacts",
             joinColumns = @JoinColumn(name = "client_id"))
+    @MapKeyColumn(name = "contact_type")
+    @Column(name = "contact_info")
     @Builder.Default
-    private List<Contact> contacts = new ArrayList<>();
+    private Map<String, String> contacts = new HashMap<>();
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     @Builder.Default

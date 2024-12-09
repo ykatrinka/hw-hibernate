@@ -1,10 +1,9 @@
 package ru.clevertec.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ru.clevertec.entity.Review;
 
-import java.util.List;
-
-public interface ReviewRepository extends CrudRepository<Review, Long> {
-
-    List<Review> getAllReviewsFullTextSearch(String searchText);
+@Repository
+public interface ReviewRepository extends JpaRepository<Review, Long> {
 }
